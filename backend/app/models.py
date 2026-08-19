@@ -29,6 +29,7 @@ class Product(Base):
     description = Column(Text, nullable=True)
     price = Column(Numeric(12, 2), nullable=False)
     stock = Column(Integer, nullable=False, default=0)
+    category = Column(String(100), nullable=True)
     image_url = Column(String(255), nullable=True)
     created_at = Column(DateTime, default=datetime.utcnow)
 

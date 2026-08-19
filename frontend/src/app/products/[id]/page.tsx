@@ -36,123 +36,7 @@ interface Product {
 }
 
 // Mock products mirroring the homepage items
-const MOCK_PRODUCTS = [
-  {
-    id: 101,
-    name: "Tan Solid Laptop Backpack",
-    category: "Backpacks",
-    price: "149000",
-    originalPrice: 185000,
-    rating: 5,
-    reviewsCount: 2,
-    image_url: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=500&auto=format&fit=crop&q=60",
-    stock: 12,
-    description: "Tas ransel laptop yang kokoh berwarna cokelat muda, cocok untuk bekerja, sekolah, atau bepergian. Memiliki banyak kompartemen dan pelindung laptop khusus."
-  },
-  {
-    id: 102,
-    name: "Brown Solid Biker Jacket",
-    category: "Jackets",
-    price: "110000",
-    originalPrice: 120000,
-    rating: 5,
-    reviewsCount: 1,
-    image_url: "https://images.unsplash.com/photo-1551028719-00167b16eac5?w=500&auto=format&fit=crop&q=60",
-    stock: 5,
-    description: "Jaket kulit biker berwarna cokelat solid bergaya klasik. Sangat nyaman digunakan berkendara dan memberikan kesan maskulin yang berkelas."
-  },
-  {
-    id: 103,
-    name: "Men Brown Solid Mid-Top Boots",
-    category: "Shoes",
-    price: "115000",
-    rating: 5,
-    reviewsCount: 1,
-    image_url: "https://images.unsplash.com/photo-1520639888713-7851133b1ed0?w=500&auto=format&fit=crop&q=60",
-    stock: 8,
-    description: "Sepatu boots pria model mid-top berwarna cokelat terbuat dari kulit berkualitas tinggi. Sol yang tebal memberikan grip maksimal di segala permukaan."
-  },
-  {
-    id: 104,
-    name: "Petite Olive Green Solid Top",
-    category: "Dresses",
-    price: "49000",
-    rating: 5,
-    reviewsCount: 1,
-    image_url: "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?w=500&auto=format&fit=crop&q=60",
-    stock: 15,
-    description: "Atasan kasual wanita berwarna hijau zaitun dengan bahan katun lembut yang sejuk. Desain kasual yang modis untuk menemani aktivitas harian Anda."
-  },
-  {
-    id: 105,
-    name: "Brown Solid Laptop Bag",
-    category: "Handbags",
-    price: "99000",
-    originalPrice: 120000,
-    rating: 5,
-    reviewsCount: 1,
-    image_url: "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=500&auto=format&fit=crop&q=60",
-    stock: 3,
-    description: "Tas jinjing laptop kulit berwarna cokelat tua yang elegan. Dilengkapi dengan tali selempang yang dapat dilepas pasang dan busa peredam guncangan."
-  },
-  {
-    id: 106,
-    name: "Black Analogue and Digital Watch",
-    category: "Watches",
-    price: "1599000",
-    rating: 4,
-    reviewsCount: 3,
-    image_url: "https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=500&auto=format&fit=crop&q=60",
-    stock: 4,
-    description: "Jam tangan sporty pria dengan dual display (analogue & digital) berwarna hitam kokoh. Tahan air hingga kedalaman 50 meter dan dilengkapi fitur stopwatch."
-  },
-  {
-    id: 107,
-    name: "Men Navy Printed Round Neck T-Shirt",
-    category: "T-Shirts",
-    price: "50000",
-    rating: 5,
-    reviewsCount: 1,
-    image_url: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=500&auto=format&fit=crop&q=60",
-    stock: 20,
-    description: "Kaos oblong pria berwarna biru navy dengan sablon grafis premium di bagian dada. Bahan katun combed 30s berkualitas tinggi yang menyerap keringat."
-  },
-  {
-    id: 108,
-    name: "Brown Self Design Shoulder Bag",
-    category: "Handbags",
-    price: "78000",
-    rating: 5,
-    reviewsCount: 1,
-    image_url: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=500&auto=format&fit=crop&q=60",
-    stock: 7,
-    description: "Tas bahu wanita dengan motif rajut unik berwarna cokelat. Sangat cocok dipadupadankan dengan busana gaya boho-chic atau kasual semi-formal."
-  },
-  {
-    id: 109,
-    name: "Brown Q Explorist HR Smartwatch",
-    category: "Watches",
-    price: "1699000",
-    originalPrice: 2000000,
-    rating: 5,
-    reviewsCount: 1,
-    image_url: "https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?w=500&auto=format&fit=crop&q=60",
-    stock: 2,
-    description: "Smartwatch generasi terbaru dengan casing baja tahan karat berwarna cokelat dan strap kulit. Mendukung monitor detak jantung, notifikasi pintar, dan GPS internal."
-  },
-  {
-    id: 110,
-    name: "Brown Solid Leather Belt",
-    category: "Belts",
-    price: "15000",
-    originalPrice: 18000,
-    rating: 5,
-    reviewsCount: 1,
-    image_url: "https://images.unsplash.com/photo-1624222247344-550fb8ecfe7c?w=500&auto=format&fit=crop&q=60",
-    stock: 14,
-    description: "Ikat pinggang kulit sapi asli berwarna cokelat dengan gesper logam berlapis chrome antik karat. Aksesori wajib pria untuk melengkapi setelan celana formal."
-  }
-];
+const MOCK_PRODUCTS: any[] = [];
 
 export default function ProductDetailPage() {
   const { id } = useParams();
@@ -169,7 +53,7 @@ export default function ProductDetailPage() {
   const [isSuccess, setIsSuccess] = useState(false);
 
   const getFullImageUrl = (url: string) => {
-    if (!url) return "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500&auto=format&fit=crop&q=60";
+    if (!url) return "https://cdn.dummyjson.com/product-images/mens-shirts/man-sleeve-shirt/thumbnail.webp";
     if (url.startsWith("/static")) {
       const baseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
       return `${baseUrl}${url}`;
@@ -183,35 +67,13 @@ export default function ProductDetailPage() {
 
     const loadProduct = async () => {
       try {
-        if (productId >= 100) {
-          // Cari di mock data
-          const mockItem = MOCK_PRODUCTS.find((p) => p.id === productId);
-          if (mockItem) {
-            setProduct({
-              id: mockItem.id,
-              seller_id: 1,
-              name: mockItem.name,
-              description: mockItem.description,
-              price: mockItem.price,
-              stock: mockItem.stock,
-              image_url: mockItem.image_url,
-              category: mockItem.category,
-              rating: mockItem.rating,
-              reviewsCount: mockItem.reviewsCount,
-              originalPrice: mockItem.originalPrice,
-              created_at: new Date().toISOString()
-            });
-          }
-        } else {
-          // Ambil dari server
-          const data = await apiRequest(`/products/${productId}`);
-          setProduct({
-            ...data,
-            category: data.category || "Produk",
-            rating: 5,
-            reviewsCount: 1
-          });
-        }
+        const data = await apiRequest(`/products/${productId}`);
+        setProduct({
+          ...data,
+          category: data.category || "Produk",
+          rating: 5,
+          reviewsCount: 1
+        });
       } catch (err) {
         console.error("Gagal memuat detail produk:", err);
       } finally {
@@ -236,36 +98,11 @@ export default function ProductDetailPage() {
     setIsAdding(true);
 
     try {
-      if (product.id >= 100) {
-        // Mock product integration with LocalStorage
-        await new Promise((resolve) => setTimeout(resolve, 600));
-        const localCart = JSON.parse(localStorage.getItem("mock_cart") || "[]");
-        const existingItem = localCart.find((item: any) => item.product_id === product.id);
-        
-        if (existingItem) {
-          existingItem.quantity += quantity;
-        } else {
-          localCart.push({
-            id: Date.now(),
-            product_id: product.id,
-            quantity: quantity,
-            product: {
-              id: product.id,
-              name: product.name,
-              price: product.price,
-              image_url: product.image_url,
-              stock: product.stock
-            }
-          });
-        }
-        localStorage.setItem("mock_cart", JSON.stringify(localCart));
-      } else {
-        // Real API database cart insertion
-        await apiRequest("/carts", {
-          method: "POST",
-          bodyData: { product_id: product.id, quantity: quantity }
-        });
-      }
+      // Real API database cart insertion
+      await apiRequest("/carts", {
+        method: "POST",
+        bodyData: { product_id: product.id, quantity: quantity }
+      });
       
       window.dispatchEvent(new Event("cartUpdated"));
       

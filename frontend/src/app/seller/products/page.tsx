@@ -15,6 +15,7 @@ interface Product {
   price: string;
   stock: number;
   image_url: string;
+  category?: string;
   created_at: string;
 }
 
@@ -33,6 +34,7 @@ export default function SellerProductsPage() {
   const [formStock, setFormStock] = useState("");
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [filePreview, setFilePreview] = useState<string | null>(null);
+  const [formCategory, setFormCategory] = useState("Shoes");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const fetchSellerProducts = async () => {
@@ -66,6 +68,7 @@ export default function SellerProductsPage() {
     setFormDesc("");
     setFormPrice("");
     setFormStock("");
+    setFormCategory("Shoes");
     setSelectedFile(null);
     setFilePreview(null);
     setIsModalOpen(true);
@@ -77,6 +80,7 @@ export default function SellerProductsPage() {
     setFormDesc(product.description || "");
     setFormPrice(product.price);
     setFormStock(product.stock.toString());
+    setFormCategory(product.category || "Shoes");
     setSelectedFile(null);
     setFilePreview(product.image_url ? getFullImageUrl(product.image_url) : null);
     setIsModalOpen(true);
@@ -101,6 +105,7 @@ export default function SellerProductsPage() {
       formData.append("description", formDesc);
       formData.append("price", formPrice);
       formData.append("stock", formStock);
+      formData.append("category", formCategory);
       if (selectedFile) {
         formData.append("image", selectedFile);
       }
@@ -143,7 +148,7 @@ export default function SellerProductsPage() {
   };
 
   const getFullImageUrl = (url: string) => {
-    if (!url) return "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500&auto=format&fit=crop&q=60";
+    if (!url) return "https://cdn.dummyjson.com/product-images/mens-shirts/man-plaid-shirt/thumbnail.webp";
     if (url.startsWith("/static")) {
       const baseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
       return `${baseUrl}${url}`;
@@ -219,6 +224,11 @@ export default function SellerProductsPage() {
 
               {/* Product Details */}
               <div className="p-5 flex-1 flex flex-col">
+                {product.category && (
+                  <span className="text-[10px] font-bold text-primary uppercase tracking-wider mb-1 inline-block">
+                    {product.category}
+                  </span>
+                )}
                 <h3 className="font-bold text-foreground line-clamp-1 text-base">{product.name}</h3>
                 <p className="text-xs text-muted-foreground mt-1 line-clamp-2 min-h-[2rem]">
                   {product.description || "Tidak ada deskripsi produk."}
@@ -272,6 +282,24 @@ export default function SellerProductsPage() {
                   rows={3}
                   className="w-full bg-secondary border border-white/5 rounded-xl px-4 py-2.5 text-sm text-foreground focus:outline-none focus:border-primary transition-colors resize-none"
                 />
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold text-muted-foreground mb-1">KATEGORI PRODUK *</label>
+                <select
+                  value={formCategory}
+                  onChange={(e) => setFormCategory(e.target.value)}
+                  className="w-full bg-secondary border border-white/5 rounded-xl px-4 py-2.5 text-sm text-foreground focus:outline-none focus:border-primary transition-colors cursor-pointer"
+                >
+                  <option value="Shoes">Shoes</option>
+                  <option value="Handbags">Handbags</option>
+                  <option value="Watches">Watches</option>
+                  <option value="Jackets">Jackets</option>
+                  <option value="Dresses">Dresses</option>
+                  <option value="Backpacks">Backpacks</option>
+                  <option value="Belts">Belts</option>
+                  <option value="Electronics">Electronics</option>
+                </select>
               </div>
 
               <div className="grid grid-cols-2 gap-4">

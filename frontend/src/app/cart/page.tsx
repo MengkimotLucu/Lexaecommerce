@@ -82,7 +82,7 @@ export default function CartPage() {
   };
 
   const getFullImageUrl = (url: string) => {
-    if (!url) return "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500&auto=format&fit=crop&q=60";
+    if (!url) return "https://cdn.dummyjson.com/product-images/mens-shirts/man-sleeve-shirt/thumbnail.webp";
     if (url.startsWith("/static")) {
       const baseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
       return `${baseUrl}${url}`;

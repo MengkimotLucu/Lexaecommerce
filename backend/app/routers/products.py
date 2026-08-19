@@ -36,6 +36,7 @@ async def create_product(
     description: Optional[str] = Form(None),
     price: Decimal = Form(...),
     stock: int = Form(...),
+    category: Optional[str] = Form(None),
     image: Optional[UploadFile] = File(None),
     current_user: User = Depends(get_current_seller),
     db: AsyncSession = Depends(get_db)
@@ -50,6 +51,7 @@ async def create_product(
         description=description,
         price=price,
         stock=stock,
+        category=category,
         image_url=image_url
     )
     db.add(new_product)
@@ -64,6 +66,7 @@ async def update_product(
     description: Optional[str] = Form(None),
     price: Decimal = Form(...),
     stock: int = Form(...),
+    category: Optional[str] = Form(None),
     image: Optional[UploadFile] = File(None),
     current_user: User = Depends(get_current_seller),
     db: AsyncSession = Depends(get_db)
@@ -88,6 +91,7 @@ async def update_product(
     product.description = description
     product.price = price
     product.stock = stock
+    product.category = category
     
     if image:
         image_url = await upload_image(image)

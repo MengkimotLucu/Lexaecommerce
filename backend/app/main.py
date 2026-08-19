@@ -26,7 +26,7 @@ app = FastAPI(
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],  # Mengizinkan semua origin untuk kemudahan development lokal
-    allow_credentials=True,
+    allow_credentials=False,  # Karena kita menggunakan Authorization Bearer header, bukan cookie
     allow_methods=["*"],
     allow_headers=["*"],
 )

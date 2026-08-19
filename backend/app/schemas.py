@@ -47,6 +47,7 @@ class ProductResponse(BaseModel):
     description: Optional[str] = None
     price: Decimal
     stock: int
+    category: Optional[str] = None
     image_url: Optional[str] = None
     created_at: datetime
 

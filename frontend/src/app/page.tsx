@@ -18,7 +18,8 @@ import {
   ArrowRight, 
   Heart,
   ChevronLeft,
-  ChevronRight
+  ChevronRight,
+  X
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -32,6 +33,7 @@ interface Product {
   stock: number;
   image_url: string;
   created_at: string;
+  category?: string;
 }
 
 interface CatalogProduct {
@@ -49,148 +51,36 @@ interface CatalogProduct {
   featured?: boolean;
 }
 
-// Mock products mirroring the exact items in the design image
-const MOCK_PRODUCTS: CatalogProduct[] = [
-  {
-    id: 101,
-    name: "Tan Solid Laptop Backpack",
-    category: "Backpacks",
-    price: 149000,
-    maxPrice: 185000,
-    rating: 5,
-    reviewsCount: 2,
-    tag: "18% OFF",
-    featured: true,
-    image_url: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=500&auto=format&fit=crop&q=60",
-    stock: 12
-  },
-  {
-    id: 102,
-    name: "Brown Solid Biker Jacket",
-    category: "Jackets",
-    price: 110000,
-    maxPrice: 120000,
-    rating: 5,
-    reviewsCount: 1,
-    image_url: "https://images.unsplash.com/photo-1551028719-00167b16eac5?w=500&auto=format&fit=crop&q=60",
-    stock: 5
-  },
-  {
-    id: 103,
-    name: "Men Brown Solid Mid-Top Boots",
-    category: "Casual Shoes, Sneakers",
-    price: 115000,
-    rating: 5,
-    reviewsCount: 1,
-    image_url: "https://images.unsplash.com/photo-1520639888713-7851133b1ed0?w=500&auto=format&fit=crop&q=60",
-    stock: 8
-  },
-  {
-    id: 104,
-    name: "Petite Olive Green Solid Top",
-    category: "Dresses & Tops",
-    price: 49000,
-    rating: 5,
-    reviewsCount: 1,
-    image_url: "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?w=500&auto=format&fit=crop&q=60",
-    stock: 15
-  },
-  {
-    id: 105,
-    name: "Brown Solid Laptop Bag",
-    category: "Handbags, Messenger Bag",
-    price: 99000,
-    originalPrice: 120000,
-    rating: 5,
-    reviewsCount: 1,
-    tag: "18% OFF",
-    featured: true,
-    image_url: "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=500&auto=format&fit=crop&q=60",
-    stock: 3
-  },
-  {
-    id: 106,
-    name: "Black Analogue and Digital Watch",
-    category: "Analog Watches, Digital Watches",
-    price: 1599000,
-    rating: 0,
-    reviewsCount: 0,
-    image_url: "https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=500&auto=format&fit=crop&q=60",
-    stock: 4
-  },
-  {
-    id: 107,
-    name: "Men Navy Printed Round Neck T-Shirt",
-    category: "T-Shirts",
-    price: 50000,
-    rating: 5,
-    reviewsCount: 1,
-    image_url: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=500&auto=format&fit=crop&q=60",
-    stock: 20
-  },
-  {
-    id: 108,
-    name: "Brown Self Design Shoulder Bag",
-    category: "Handbags",
-    price: 78000,
-    rating: 5,
-    reviewsCount: 1,
-    featured: true,
-    image_url: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=500&auto=format&fit=crop&q=60",
-    stock: 7
-  },
-  {
-    id: 109,
-    name: "Brown Q Explorist HR Smartwatch",
-    category: "Smart Analog, Smart Watches",
-    price: 1699000,
-    originalPrice: 2000000,
-    rating: 5,
-    reviewsCount: 1,
-    tag: "15% OFF",
-    image_url: "https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?w=500&auto=format&fit=crop&q=60",
-    stock: 2
-  },
-  {
-    id: 110,
-    name: "Brown Solid Leather Belt",
-    category: "Belts",
-    price: 15000,
-    originalPrice: 18000,
-    rating: 5,
-    reviewsCount: 1,
-    tag: "17% OFF",
-    image_url: "https://images.unsplash.com/photo-1624222247344-550fb8ecfe7c?w=500&auto=format&fit=crop&q=60",
-    stock: 14
-  }
-];
+const MOCK_PRODUCTS: CatalogProduct[] = [];
 
 const SLIDES = [
   {
     subtitle: "Season Sale",
     title: "MEN'S FASHION",
     description: "Min. 35–70% Off",
-    image: "https://images.unsplash.com/photo-1617137968427-85924c800a22?w=800&auto=format&fit=crop&q=80",
+    image: "https://cdn.dummyjson.com/product-images/mens-shirts/man-plaid-shirt/1.webp",
     bgColor: "bg-gradient-to-r from-gray-50 to-gray-100"
   },
   {
     subtitle: "New Style Arrivals",
     title: "WOMEN'S TREND",
     description: "Up to 70% Off Now",
-    image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=800&auto=format&fit=crop&q=80",
+    image: "https://cdn.dummyjson.com/product-images/womens-dresses/corset-leather-with-skirt/1.webp",
     bgColor: "bg-gradient-to-r from-[#fcf6f3] to-[#f6ebdf]"
   }
 ];
 
 const CATEGORIES = [
-  { name: "Backpacks", image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=150&auto=format&fit=crop&q=60" },
-  { name: "Jackets", image: "https://images.unsplash.com/photo-1551028719-00167b16eac5?w=150&auto=format&fit=crop&q=60" },
-  { name: "Shoes", image: "https://images.unsplash.com/photo-1520639888713-7851133b1ed0?w=150&auto=format&fit=crop&q=60" },
-  { name: "Dresses", image: "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?w=150&auto=format&fit=crop&q=60" },
-  { name: "Handbags", image: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=150&auto=format&fit=crop&q=60" },
-  { name: "Watches", image: "https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=150&auto=format&fit=crop&q=60" },
-  { name: "Belts", image: "https://images.unsplash.com/photo-1624222247344-550fb8ecfe7c?w=150&auto=format&fit=crop&q=60" }
+  { name: "Backpacks", image: "https://cdn.dummyjson.com/product-images/womens-bags/white-faux-leather-backpack/thumbnail.webp" },
+  { name: "Jackets", image: "https://cdn.dummyjson.com/product-images/mens-shirts/man-plaid-shirt/thumbnail.webp" },
+  { name: "Shoes", image: "https://cdn.dummyjson.com/product-images/mens-shoes/sports-sneakers-off-white-red/thumbnail.webp" },
+  { name: "Dresses", image: "https://cdn.dummyjson.com/product-images/womens-dresses/corset-leather-with-skirt/thumbnail.webp" },
+  { name: "Handbags", image: "https://cdn.dummyjson.com/product-images/womens-bags/women-handbag-black/thumbnail.webp" },
+  { name: "Watches", image: "https://cdn.dummyjson.com/product-images/mens-watches/rolex-submariner-watch/thumbnail.webp" },
+  { name: "Belts", image: "https://cdn.dummyjson.com/product-images/mobile-accessories/selfie-stick-monopod/thumbnail.webp" },
+  { name: "Electronics", image: "https://cdn.dummyjson.com/product-images/smartphones/iphone-13-pro/thumbnail.webp" }
 ];
+
 
 export default function HomePage() {
   const { user } = useAuth();
@@ -202,6 +92,7 @@ export default function HomePage() {
   const [successId, setSuccessId] = useState<number | null>(null);
   const [activeSlide, setActiveSlide] = useState(0);
   const [activeTab, setActiveTab] = useState<"new-arrival" | "best-selling" | "top-rated">("new-arrival");
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
   // Fetch real database products
   useEffect(() => {
@@ -217,6 +108,14 @@ export default function HomePage() {
     };
     fetchProducts();
   }, []);
+
+  const handleCategoryClick = (catName: string) => {
+    setSelectedCategory(catName);
+    const shopSection = document.getElementById("shop");
+    if (shopSection) {
+      shopSection.scrollIntoView({ behavior: "smooth" });
+    }
+  };
 
   // Automatic hero slider cycle (every 6 seconds)
   useEffect(() => {
@@ -240,36 +139,11 @@ export default function HomePage() {
     setAddingId(product.id);
 
     try {
-      if (product.id >= 100) {
-        // Mock product integration with LocalStorage
-        await new Promise((resolve) => setTimeout(resolve, 800)); // Simulate networking latency
-        const localCart = JSON.parse(localStorage.getItem("mock_cart") || "[]");
-        const existingItem = localCart.find((item: any) => item.product_id === product.id);
-        
-        if (existingItem) {
-          existingItem.quantity += 1;
-        } else {
-          localCart.push({
-            id: Date.now(),
-            product_id: product.id,
-            quantity: 1,
-            product: {
-              id: product.id,
-              name: product.name,
-              price: product.price,
-              image_url: product.image_url,
-              stock: product.stock
-            }
-          });
-        }
-        localStorage.setItem("mock_cart", JSON.stringify(localCart));
-      } else {
-        // Real API database cart insertion
-        await apiRequest("/carts", {
-          method: "POST",
-          bodyData: { product_id: product.id, quantity: 1 }
-        });
-      }
+      // Real API database cart insertion
+      await apiRequest("/carts", {
+        method: "POST",
+        bodyData: { product_id: product.id, quantity: 1 }
+      });
       
       // Dispatch custom event to tell navbar to update quantity badge
       window.dispatchEvent(new Event("cartUpdated"));
@@ -284,7 +158,7 @@ export default function HomePage() {
   };
 
   const getFullImageUrl = (url: string) => {
-    if (!url) return "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500&auto=format&fit=crop&q=60";
+    if (!url) return "https://cdn.dummyjson.com/product-images/mens-shirts/man-sleeve-shirt/thumbnail.webp";
     if (url.startsWith("/static")) {
       const baseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
       return `${baseUrl}${url}`;
@@ -292,37 +166,45 @@ export default function HomePage() {
     return url;
   };
 
-  // Filter & combine database products + mock products based on active tab
+  // Dynamically sort real products based on active tab
   const getCatalogProducts = () => {
-    let baseMock = [];
-    if (activeTab === "new-arrival") {
-      baseMock = MOCK_PRODUCTS.slice(0, 5);
-    } else if (activeTab === "best-selling") {
-      baseMock = MOCK_PRODUCTS.slice(5, 10);
-    } else {
-      // Top rated combo
-      baseMock = [MOCK_PRODUCTS[0], MOCK_PRODUCTS[4], MOCK_PRODUCTS[7], MOCK_PRODUCTS[8], MOCK_PRODUCTS[2]];
-    }
-
-    // Convert real database products to match visual mock keys
     const realProductsMapped: CatalogProduct[] = products.map(p => ({
       id: p.id,
       name: p.name,
-      category: "Katalog Toko",
+      category: p.category || "General",
       price: parseFloat(p.price),
       rating: 5,
-      reviewsCount: 0,
+      reviewsCount: 1,
       image_url: getFullImageUrl(p.image_url),
       stock: p.stock,
-      tag: p.stock === 0 ? "STOK HABIS" : undefined
+      tag: p.stock === 0 ? "STOK HABIS" : (p.stock <= 3 ? "LOW STOCK" : undefined)
     }));
 
-    // Filter by search query
-    const combined = [...baseMock, ...realProductsMapped];
-    return combined.filter(p =>
-      p.name.toLowerCase().includes(search.toLowerCase()) ||
-      p.category.toLowerCase().includes(search.toLowerCase())
-    );
+    let filtered = [...realProductsMapped];
+
+    // Filter berdasarkan kategori terpilih
+    if (selectedCategory) {
+      filtered = filtered.filter(p => p.category.toLowerCase() === selectedCategory.toLowerCase());
+    }
+
+    // Filter berdasarkan query pencarian
+    if (search) {
+      filtered = filtered.filter(p =>
+        p.name.toLowerCase().includes(search.toLowerCase()) ||
+        p.category.toLowerCase().includes(search.toLowerCase())
+      );
+    }
+
+    // Urutkan berdasarkan tab aktif
+    if (activeTab === "new-arrival") {
+      filtered.sort((a, b) => b.id - a.id);
+    } else if (activeTab === "best-selling") {
+      filtered.sort((a, b) => (a.id % 3) - (b.id % 3));
+    } else {
+      filtered.sort((a, b) => b.price - a.price);
+    }
+
+    return filtered;
   };
 
   const filteredProducts = getCatalogProducts();
@@ -438,9 +320,12 @@ export default function HomePage() {
       <section className="max-w-7xl mx-auto px-6 md:px-12 my-14">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Left Large Banner (Women's Style) */}
-          <div className="relative overflow-hidden rounded-2xl h-[420px] bg-[#f9f2f0] group cursor-pointer shadow-sm">
+          <div 
+            onClick={() => handleCategoryClick("Dresses")}
+            className="relative overflow-hidden rounded-2xl h-[420px] bg-[#f9f2f0] group cursor-pointer shadow-sm"
+          >
             <img
-              src="https://images.unsplash.com/photo-1483985988355-763728e1935b?w=600&auto=format&fit=crop&q=80"
+              src="https://cdn.dummyjson.com/product-images/womens-dresses/corset-leather-with-skirt/1.webp"
               alt="Women's Style"
               className="absolute inset-0 w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700"
             />
@@ -463,9 +348,12 @@ export default function HomePage() {
             {/* Row 1 (Handbag & Watch) */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               {/* Handbag */}
-              <div className="relative overflow-hidden rounded-2xl h-[198px] bg-[#f4ece3] group cursor-pointer shadow-sm">
+              <div 
+                onClick={() => handleCategoryClick("Handbags")}
+                className="relative overflow-hidden rounded-2xl h-[198px] bg-[#f4ece3] group cursor-pointer shadow-sm"
+              >
                 <img
-                  src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=400&auto=format&fit=crop&q=80"
+                  src="https://cdn.dummyjson.com/product-images/womens-bags/women-handbag-black/1.webp"
                   alt="Handbag"
                   className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                 />
@@ -483,9 +371,12 @@ export default function HomePage() {
               </div>
 
               {/* Watch */}
-              <div className="relative overflow-hidden rounded-2xl h-[198px] bg-[#eef0f3] group cursor-pointer shadow-sm">
+              <div 
+                onClick={() => handleCategoryClick("Watches")}
+                className="relative overflow-hidden rounded-2xl h-[198px] bg-[#eef0f3] group cursor-pointer shadow-sm"
+              >
                 <img
-                  src="https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=400&auto=format&fit=crop&q=80"
+                  src="https://cdn.dummyjson.com/product-images/mens-watches/rolex-submariner-watch/1.webp"
                   alt="Watch"
                   className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                 />
@@ -503,10 +394,13 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* Row 2 (Backpack) */}
-            <div className="relative overflow-hidden rounded-2xl h-[196px] bg-[#eff3f6] group cursor-pointer shadow-sm">
+            {/* Row 2 (Backpack / Electronics) */}
+            <div 
+              onClick={() => handleCategoryClick("Electronics")}
+              className="relative overflow-hidden rounded-2xl h-[196px] bg-[#eff3f6] group cursor-pointer shadow-sm"
+            >
               <img
-                src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=600&auto=format&fit=crop&q=80"
+                src="https://cdn.dummyjson.com/product-images/laptops/apple-macbook-pro-14-inch-space-grey/1.webp"
                 alt="Backpack"
                 className="absolute inset-0 w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700"
               />
@@ -539,37 +433,52 @@ export default function HomePage() {
 
         {/* Tab Headers and Search */}
         <div className="flex flex-col md:flex-row justify-between items-center gap-6 border-b border-gray-100 pb-5 mb-8">
-          <div className="flex flex-wrap gap-2.5">
-            <button
-              onClick={() => setActiveTab("new-arrival")}
-              className={`px-5 py-2.5 rounded-full text-xs font-bold transition-all uppercase tracking-wider ${
-                activeTab === "new-arrival"
-                  ? "bg-primary text-white shadow-sm"
-                  : "bg-white text-gray-500 hover:text-gray-900 border border-gray-100 hover:bg-gray-50"
-              }`}
-            >
-              New Arrival
-            </button>
-            <button
-              onClick={() => setActiveTab("best-selling")}
-              className={`px-5 py-2.5 rounded-full text-xs font-bold transition-all uppercase tracking-wider ${
-                activeTab === "best-selling"
-                  ? "bg-primary text-white shadow-sm"
-                  : "bg-white text-gray-500 hover:text-gray-900 border border-gray-100 hover:bg-gray-50"
-              }`}
-            >
-              Best Selling
-            </button>
-            <button
-              onClick={() => setActiveTab("top-rated")}
-              className={`px-5 py-2.5 rounded-full text-xs font-bold transition-all uppercase tracking-wider ${
-                activeTab === "top-rated"
-                  ? "bg-primary text-white shadow-sm"
-                  : "bg-white text-gray-500 hover:text-gray-900 border border-gray-100 hover:bg-gray-50"
-              }`}
-            >
-              Top Rated
-            </button>
+          <div className="flex flex-wrap items-center gap-3">
+            <div className="flex flex-wrap gap-2.5">
+              <button
+                onClick={() => setActiveTab("new-arrival")}
+                className={`px-5 py-2.5 rounded-full text-xs font-bold transition-all uppercase tracking-wider ${
+                  activeTab === "new-arrival"
+                    ? "bg-primary text-white shadow-sm"
+                    : "bg-white text-gray-500 hover:text-gray-900 border border-gray-100 hover:bg-gray-50"
+                }`}
+              >
+                New Arrival
+              </button>
+              <button
+                onClick={() => setActiveTab("best-selling")}
+                className={`px-5 py-2.5 rounded-full text-xs font-bold transition-all uppercase tracking-wider ${
+                  activeTab === "best-selling"
+                    ? "bg-primary text-white shadow-sm"
+                    : "bg-white text-gray-500 hover:text-gray-900 border border-gray-100 hover:bg-gray-50"
+                }`}
+              >
+                Best Selling
+              </button>
+              <button
+                onClick={() => setActiveTab("top-rated")}
+                className={`px-5 py-2.5 rounded-full text-xs font-bold transition-all uppercase tracking-wider ${
+                  activeTab === "top-rated"
+                    ? "bg-primary text-white shadow-sm"
+                    : "bg-white text-gray-500 hover:text-gray-900 border border-gray-100 hover:bg-gray-50"
+                }`}
+              >
+                Top Rated
+              </button>
+            </div>
+
+            {selectedCategory && (
+              <div className="flex items-center gap-2 bg-primary/10 border border-primary/20 text-primary font-bold text-[10px] px-3.5 py-2 rounded-full uppercase tracking-wider">
+                <span>Kategori: {selectedCategory}</span>
+                <button 
+                  onClick={() => setSelectedCategory(null)}
+                  className="hover:bg-primary/20 p-0.5 rounded-full transition-colors ml-1"
+                  title="Hapus filter"
+                >
+                  <X className="w-3.5 h-3.5" />
+                </button>
+              </div>
+            )}
           </div>
 
           {/* Search bar */}
@@ -722,9 +631,12 @@ export default function HomePage() {
       <section className="max-w-7xl mx-auto px-6 md:px-12 my-16">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Men's Fashion Weekend Sale */}
-          <div className="relative overflow-hidden rounded-2xl h-[260px] bg-gray-50 group cursor-pointer shadow-sm">
+          <div 
+            onClick={() => handleCategoryClick("Jackets")}
+            className="relative overflow-hidden rounded-2xl h-[260px] bg-gray-50 group cursor-pointer shadow-sm"
+          >
             <img
-              src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=600&auto=format&fit=crop&q=80"
+              src="https://cdn.dummyjson.com/product-images/mens-shirts/man-plaid-shirt/1.webp"
               alt="Men's Fashion Weekend Sale"
               className="absolute inset-0 w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700"
             />
@@ -743,9 +655,12 @@ export default function HomePage() {
           </div>
 
           {/* Women's Wear Fashion Style */}
-          <div className="relative overflow-hidden rounded-2xl h-[260px] bg-gray-50 group cursor-pointer shadow-sm">
+          <div 
+            onClick={() => handleCategoryClick("Dresses")}
+            className="relative overflow-hidden rounded-2xl h-[260px] bg-gray-50 group cursor-pointer shadow-sm"
+          >
             <img
-              src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=600&auto=format&fit=crop&q=80"
+              src="https://cdn.dummyjson.com/product-images/womens-dresses/corset-leather-with-skirt/1.webp"
               alt="Women's Wear Fashion Style"
               className="absolute inset-0 w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700"
             />
@@ -775,20 +690,31 @@ export default function HomePage() {
         </div>
 
         <div className="flex flex-wrap justify-center gap-8 md:gap-12">
-          {CATEGORIES.map((cat, i) => (
-            <div key={i} className="flex flex-col items-center group cursor-pointer">
-              <div className="w-20 h-20 md:w-24 md:h-24 rounded-full overflow-hidden border-2 border-gray-100 group-hover:border-primary transition-all p-1.5 shadow-sm bg-white">
-                <img
-                  src={cat.image}
-                  alt={cat.name}
-                  className="w-full h-full rounded-full object-cover group-hover:scale-105 transition-transform duration-500"
-                />
+          {CATEGORIES.map((cat, i) => {
+            const isSelected = selectedCategory?.toLowerCase() === cat.name.toLowerCase();
+            return (
+              <div 
+                key={i} 
+                onClick={() => handleCategoryClick(cat.name)}
+                className="flex flex-col items-center group cursor-pointer"
+              >
+                <div className={`w-20 h-20 md:w-24 md:h-24 rounded-full overflow-hidden border-2 transition-all p-1.5 shadow-sm bg-white ${
+                  isSelected ? "border-primary scale-105" : "border-gray-100 group-hover:border-primary"
+                }`}>
+                  <img
+                    src={cat.image}
+                    alt={cat.name}
+                    className="w-full h-full rounded-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                </div>
+                <span className={`text-xs font-bold transition-colors mt-3 ${
+                  isSelected ? "text-primary" : "text-gray-600 group-hover:text-primary"
+                }`}>
+                  {cat.name}
+                </span>
               </div>
-              <span className="text-xs font-bold text-gray-600 group-hover:text-primary transition-colors mt-3">
-                {cat.name}
-              </span>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </section>
     </div>
