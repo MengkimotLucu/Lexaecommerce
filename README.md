@@ -96,14 +96,11 @@ Pastikan Anda sudah menginstal:
 
 ---
 
-## 🔑 Akun Demo Pengujian (Seeded Accounts)
+## 🔑 Registrasi Akun Pengujian
 
-Untuk mempermudah pengujian, database sudah terisi secara otomatis dengan akun-akun berikut setelah Anda menjalankan `python seed.py`:
-
-| Peran (Role) | Email | Password | Keterangan |
-| :--- | :--- | :--- | :--- |
-| **Penjual (Seller)** | `mengkimen9@gmail.com` | `mengki1124` | Pemilik dari 60+ katalog produk awal. Memiliki akses ke halaman `/seller`. |
-| **Pembeli (Buyer)** | `satrialimpad2@gmail.com` | `satria1124` | Akun siap pakai untuk menguji proses checkout keranjang belanja. |
+Untuk melakukan pengujian fitur, Anda dapat mendaftarkan akun baru secara langsung melalui halaman registrasi aplikasi:
+1.  **Akun Penjual (Seller):** Daftarkan akun baru Anda melalui menu registrasi dan pilih peran sebagai **Penjual (Seller)**. Akun ini dapat digunakan untuk mengelola produk di dasbor penjual (`/seller`).
+2.  **Akun Pembeli (Buyer):** Daftarkan akun baru Anda dengan memilih peran sebagai **Pembeli (Buyer)** untuk mencoba simulasi pembelian produk, memasukkan barang ke keranjang belanja, dan melakukan checkout transaksi.
 
 ---
 
